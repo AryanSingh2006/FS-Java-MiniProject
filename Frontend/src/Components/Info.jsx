@@ -9,7 +9,7 @@ export function HeroSection({ className }) {
       className={cls("w-full h-[200px] -translate-y-24 ", className)}
     >
       {/* Main container with background and padding */}
-      <div className="bg-lime-200 mx-auto max-w-8xl py-10  ">
+      <div className="bg-lime-200 mx-auto max-w-full py-10  ">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-60 translate-x-60">
           
           {/* Left side: Text content */}
@@ -34,7 +34,7 @@ export function HeroSection({ className }) {
               <img
                 src="https://i.postimg.cc/KzpFDK5T/Chat-GPT-Image-Oct-16-2025-10-37-15-PM-Photoroom.png"
                 alt="Illustration of a creator working with gadgets"
-                className="relative -translate-y-[425px] translate-x-[1000px] w-[450px] object-cover"
+                className="relative -translate-y-[425px] translate-x-[900px] w-[450px] object-cover"
               />
     </section>
   )

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Check } from "lucide-react"
+import { Link } from "react-router";
 
 function BookIcon() {
   return (
@@ -50,20 +51,23 @@ export default function HeroSection() {
       {/* Email Signup Form */}
       <form onSubmit={handleSubmit} className="w-full max-w-2xl mb-4">
         <div className="flex flex-col sm:flex-row gap-2 justify-center">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="flex-1 px-4 py-3 md:py-4 rounded-full border border-light-gray bg-white text-dark-gray placeholder-muted-text focus:outline-none focus:ring-2 focus:ring-green-accent focus:ring-offset-2 transition-all"
-          />
-          <button
-            type="submit"
-            className="px-6 md:px-8 py-3 md:py-4 bg-black text-white font-medium rounded-full hover:bg-green-accent-dark transition-colors whitespace-nowrap"
+         <Link
+         to='/register'
+          className="flex-1 font-medium text-lg px-4 py-3 md:py-4 rounded-full border-2 border-black/20 bg-white text-dark-gray placeholder-muted-text focus:outline-none focus:ring-2 focus:ring-green-accent focus:ring-offset-2 transition-all "
+         >
+          <h1 className="ml-48">
+            Get Started
+          </h1>
+         </Link>
+          <Link
+            to='/login'
+            className="px-8 md:px-12 py-3 md:py-4 bg-black text-white font-medium rounded-full hover:bg-green-accent-dark transition-colors whitespace-nowrap"
           >
-            {isSubmitted ? "Subscribed!" : "Subscribe"}
-          </button>
+            <h1 className="mt-1 text-base">
+              Login
+            </h1>
+           
+          </Link>
         </div>
       </form>
 

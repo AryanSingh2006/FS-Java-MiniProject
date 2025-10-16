@@ -8,9 +8,9 @@ export function NewsletterHero() {
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-100 rounded-t-3xl "
+        className="pointer-events-none absolute inset-0 opacity-20 "
         style={{
-          backgroundImage: "url('https://i.pinimg.com/1200x/af/36/45/af36457841bb931e3d1b3f32ef6979e6.jpg')",
+          backgroundImage: "url('https://i.pinimg.com/1200x/ee/be/8a/eebe8a73a7eed94dfc2a96ca4699e4b8.jpg')",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -19,7 +19,7 @@ export function NewsletterHero() {
       <div className="relative mx-auto max-w-7xl px-4 py-24 md:py-28 text-center">
         {/* Headline */}
         <h1
-          className="font-serif text-balance text-6xl leading-relaxed md:text-6xl text-black"
+          className="font-serif italic text-balance text-6xl leading-relaxed md:text-6xl text-black"
         >
           Discover the next big thing
         </h1>
