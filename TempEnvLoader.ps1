@@ -1,0 +1,1 @@
+ = 'C:\Users\44184\Documents\Projects\FS-Java-MiniProject\demo\.env'; Get-Content  | ForEach-Object { if ( -and  -match '^(\w+)=(.*)$') { =[1]; =[2]; [System.Environment]::SetEnvironmentVariable(,,'Process') } }; & 'C:\Users\44184\Documents\Projects\FS-Java-MiniProject\demo\mvnw.cmd' -f 'C:\Users\44184\Documents\Projects\FS-Java-MiniProject\demo\pom.xml' test
