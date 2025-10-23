@@ -5,7 +5,7 @@ import { User, Lock, Loader2 } from "lucide-react";
 export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    voter_id: "",
+    email: "",
     password: "",
   });
   const [loading, setLoading] = useState(false);
@@ -20,13 +20,28 @@ export default function Login() {
     setLoading(true);
     setMessage("");
 
-    setTimeout(() => {
-      setLoading(false);
-      setMessage("✅ Login successful (frontend demo)");
-      setTimeout(() => {
-        navigate("/main");
-      }, 1200);
-    }, 1500);
+    fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => {
+        const text = await res.text();
+        if (res.ok) {
+          setMessage("✅ Login successful. Redirecting...");
+          setTimeout(() => navigate("/main"), 800);
+        } else {
+          try {
+            const json = JSON.parse(text || "{}");
+            setMessage(json.message || JSON.stringify(json) || text || "Login failed");
+          } catch (err) {
+            setMessage(text || "Login failed");
+          }
+        }
+      })
+      .catch((err) => setMessage("Network error: " + (err.message || err)))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -59,7 +74,7 @@ export default function Login() {
           {/* Header */}
           <div className="px-6 text-center">
             <h2 className="text-5xl font-normal font-montserrat text-black mb-2">
-               Login
+              Login
             </h2>
             <p className="text-sm text-black/60 font-montserrat mt-1">
               Enter your credentials to access your account
@@ -70,16 +85,16 @@ export default function Login() {
           <div className="p-6">
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Voter ID */}
+              {/* Email */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Username</label>
+                <label className="text-sm font-medium text-gray-700">Email</label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <input
-                    type="text"
-                    name="voter_id"
-                    placeholder="Enter your Username"
-                    value={form.voter_id}
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    value={form.email}
                     onChange={handleChange}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-500/30 focus:border-transparent"
                     required

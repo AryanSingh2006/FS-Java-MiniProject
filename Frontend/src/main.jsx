@@ -25,6 +25,14 @@ const router = createBrowserRouter([
         element: <Main />
       },
       {
+        path: "/main/my",
+        element: <Main />
+      },
+      {
+        path: "/main/repos/:repoId",
+        element: <Main />
+      },
+      {
         path: "/login",
         element: <Login />
       },

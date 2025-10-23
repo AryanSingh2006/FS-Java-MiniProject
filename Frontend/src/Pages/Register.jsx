@@ -1,28 +1,56 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
-    phone_number: "+91 ",
   });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "phone_number") {
-      let input = value.replace(/^\+?91\s?/, "");
-      input = input.replace(/\D/g, "").slice(0, 10);
-      setForm({ ...form, phone_number: "+91 " + input });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Registration successful (frontend only demo).");
+    setLoading(true);
+    setMessage("");
+
+    // POST to backend register endpoint. The server should set an auth cookie (HttpOnly)
+    fetch("http://localhost:8080/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(form),
+    })
+      .then(async (res) => {
+        const text = await res.text();
+        if (res.ok) {
+          setMessage("✅ Registration successful. Redirecting...");
+          // small delay so user can read the message
+          setTimeout(() => navigate("/main"), 900);
+        } else {
+          // try to show JSON error or plain text
+          try {
+            const json = JSON.parse(text || "{}");
+            setMessage(json.message || JSON.stringify(json) || text || "Registration failed");
+          } catch (e) {
+            setMessage(text || "Registration failed");
+          }
+        }
+      })
+      .catch((err) => {
+        setMessage("Network error: " + (err.message || err));
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -65,10 +93,10 @@ export default function Register() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <input
-                  name="name"
+                  name="username"
                   type="text"
-                  placeholder="Full Name"
-                  value={form.name}
+                  placeholder="Username"
+                  value={form.username}
                   onChange={handleChange}
                   required
                   className="w-full border border-gray-300 focus:border-[#8B5CF6] focus:ring-0 focus:outline-none px-3 py-2 rounded-full"
@@ -100,11 +128,18 @@ export default function Register() {
 
               <button
                 type="submit"
-                className="w-full bg-black hover:bg-gray-900 text-white py-3 rounded-full font-medium transition-colors"
+                disabled={loading}
+                className="w-full bg-black hover:bg-gray-900 text-white py-3 rounded-full font-medium transition-colors disabled:opacity-50"
               >
-                Register
+                {loading ? "Registering..." : "Register"}
               </button>
             </form>
+            {/* Message */}
+            {typeof message === 'string' && message && (
+              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-full">
+                <p className="text-sm text-blue-800">{message}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
